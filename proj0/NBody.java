@@ -38,36 +38,32 @@ public class NBody{
 			s.draw();
 		}
 		StdDraw.enableDoubleBuffering();
-        for(double t=0;t<=T;t+=dt){
-            //创造xForce和YForce数组
-            double[] xForce=new double[planets.length];
-            double[] yForce=new double[planets.length];
-            //计算netForce
-            for (int i=0;i<planets.length;i++){
-                xForce[i]=planets[i].calcNetForceExertedByX(planets);
-                yForce[i]=planets[i].calcNetForceExertedByY(planets);
-            }
-            //更新每个星体 update
-            for (int i=0;i<planets.length;i++){
-                planets[i].update(dt,xForce[i],yForce[i]);
-            }
-            //绘制背景图
-            StdDraw.picture(0,0,imageToDraw);
-            //绘制每个星体的图片
-            for (int i=0;i<planets.length;i++){
-                planets[i].draw();
-            }
-            //显示屏幕外的缓冲区（双缓冲时动画在屏幕外）
-            StdDraw.show();
-            //暂停10毫秒
-            StdDraw.pause(10);
-            StdOut.printf("%d\n", planets.length);
-            StdOut.printf("%.2e\n", uniRadius);
-            for (int i = 0; i < planets.length; i++) {
-            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+		for (double t=0;t<=T;t=t+dt){
+			double[] xForces = new double[planets.length];
+		    double[] yForces = new double[planets.length];
+		    for (int i=0;i<planets.length;i=i+1){
+		    	xForces[i] = planets[i].calcNetForceExertedByX(planets);
+		    	yForces[i] = planets[i].calcNetForceExertedByY(planets);
+		    }
+		    for (int i=0;i<planets.length;i=i+1){
+		    	planets[i].update(dt,xForces[i],yForces[i]);
+		    }
+		    StdDraw.picture(0,0,"images/starfield.jpg");
+		    for (int i=0;i<planets.length;i=i+1){
+		    	planets[i].draw();
+		    }
+		    StdDraw.show();
+		    StdDraw.pause(10);
+			
+		}
+		StdOut.printf("%d\n", planets.length);
+        StdOut.printf("%.2e\n", uniRadius);
+        for (int i=0;i<planets.length;i=i+1){
+        	StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
                     planets[i].xxPos, planets[i].yyPos, planets[i].xxVel,
                     planets[i].yyVel, planets[i].mass, planets[i].imgFileName);
+
         }
-		
+
 	}
 }
