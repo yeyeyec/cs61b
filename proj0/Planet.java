@@ -30,7 +30,7 @@ public class Planet{
 	}
 	public double calcForceExertedBy(Planet b){
 		double r1 = calcDistance(b);
-		double F = (G* this.mass * b.mass)/r1*r1;
+		double F = (G* this.mass * b.mass)/(r1*r1);
 		return F;
 	}
 	public double calcForceExertedByX(Planet b){
