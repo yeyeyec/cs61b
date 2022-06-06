@@ -39,7 +39,7 @@ public class Planet{
 	}
 	public double calcForceExertedByY(Planet b){
 		double ForceY =  (this.calcForceExertedBy(b)*(b.yyPos - this.yyPos))/this.calcDistance(b);
-		return FocreY;
+		return ForceY;
 	}
 	public double calcNetForceExertedByX(Planet[] allplanets){
 		double NetForceX = 0;
