@@ -14,65 +14,62 @@ public class Planet{
 		mass = m;
 		imgFileName = img;
 	}
-	public Planet(Planet p){
-		xxPos = p.xxPos;
-		yyPos = p.yyPos;
-		xxVel = p.xxVel;
-		yyVel = p.yyVel;
-		mass = p.mass;
-		imgFileName = p.imgFileName;
+	public Planet(Planet b){
+		xxPos = b.xxPos;
+		yyPos = b.yyPos;
+		xxVel = b.xxVel;
+		yyVel = b.yyVel;
+		mass = b.mass;
+		imgFileName = b.imgFileName;
 	}
 	public double calcDistance(Planet b){
 		double deltax = this.xxPos - b.xxPos;
 		double deltay = this.yyPos - b.yyPos;
-		return Math.sqrt(deltax*deltax + deltay*deltay);
+		double r = Math.sqrt(deltax*deltax + deltay*deltay);
+		return r;
 	}
 	public double calcForceExertedBy(Planet b){
-		return (G* this.mass * b.mass)/(this.calcDistance(b)*this.calcDistance(b));
+		double r1 = calcDistance(b);
+		double F = (G* this.mass * b.mass)/r1*r1;
+		return F;
 	}
 	public double calcForceExertedByX(Planet b){
-		double ForceX = (this.calcForceExertedBy(b)*(this.xxPos - b.xxPos))/this.calcDistance(b);
-		if (ForceX <0){
-			return -ForceX;
-		}
+		double ForceX = (this.calcForceExertedBy(b)*(b.xxPos - this.xxPos))/this.calcDistance(b);
 		return ForceX;
 	}
 	public double calcForceExertedByY(Planet b){
-		double ForceY =  (this.calcForceExertedBy(b)*(this.yyPos - b.yyPos))/this.calcDistance(b);
-		if (ForceY <0){
-			return -ForceY;
-		}
-		return ForceY;
+		double ForceY =  (this.calcForceExertedBy(b)*(b.yyPos - this.yyPos))/this.calcDistance(b);
+		return FocreY;
 	}
 	public double calcNetForceExertedByX(Planet[] allplanets){
 		double NetForceX = 0;
 		for (Planet s:allplanets){
-			NetForceX = NetForceX+(this.calcForceExertedBy(s)*(this.xxPos - s.xxPos))/this.calcDistance(s);
-		}if (NetForceX <0){
-			return -NetForceX;
+			if (!this.equals(s)){
+				NetForceX = NetForceX + this.calcForceExertedByX(s);
+			}
 		}
 		return NetForceX;
 	}
 	public double calcNetForceExertedByY(Planet[] allplanets){
 		double NetForceY = 0;
-		for (Planet s: allplanets){
-			NetForceY = NetForceY+(this.calcForceExertedBy(s)*(this.yyPos - s.yyPos))/this.calcDistance(s);
-		}if (NetForceY <0){
-			return -NetForceY;
+		for (Planet s:allplanets){
+			if (!this.equals(s)){
+				NetForceY = NetForceY + this.calcForceExertedByY(s);
+			}
 		}
 		return NetForceY;
 	}
 	public void update(double dt,double fX,double fY){
 		double ax = fX/this.mass;
 		double ay = fY/this.mass;
-		xxVel = xxVel + dt*ax;
-		yyVel = yyVel + dt*ay;
-		xxPos = xxPos + dt*xxVel;
-		yyPos = yyPos + dt*yyVel;
+		this.xxVel = this.xxVel + dt*ax;
+		this.yyVel = this.yyVel + dt*ay;
+		this.xxPos = this.xxPos + dt*this.xxVel;
+		this.yyPos = this.yyPos + dt*this.yyVel;
 
 	}
 	public void draw(){
-		StdDraw.picture(xxPos, yyPos, "images/"+imgFileName);
+		StdDraw.picture(this.xxPos, this.yyPos, "images/"+this.imgFileName);
 	}
 
 
